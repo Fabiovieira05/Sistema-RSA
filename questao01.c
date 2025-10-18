@@ -25,6 +25,57 @@ long long mdc(long long a, long long b) {
 
     return a;
 }
+int saoPrimosDistintos(long long n) {
+    printf("Verificando se %lld é produto de primos distintos...\n", n);
+    long long d = 2;
+    long long nOriginal = n;
+    
+    printf("Fatorando o %lld: ", nOriginal);
+    
+    // 1. Trata o fator 2 e verifica a repetição
+    if (n % 2 == 0) {
+        printf("2 * ");
+        n /= 2;
+        // Se 2 ainda divide n (ou seja, havia 2*2 no original), o fator se repetiu.
+        if (n % 2 == 0) {
+            printf("2 * ");
+            return 0;
+        }
+    }
+
+    // 2. Trata os fatores ímpares (3, 5, 7, ...)
+    d = 3;
+    while (n != 0 && d * d <= n) {
+        if (n % d == 0) {
+            printf("%lld * ", d);
+            n /= d; // Remove a primeira ocorrência do fator primo d
+            
+            // Verifica se o fator d se repete (se ainda divide o novo n)
+            if (n % d == 0) {
+                printf("%lld * ", d);
+                return 0;
+            }
+            
+            // Se o fator for distinto, podemos passar para o próximo
+            // (o próximo divisor primo é d+2, d+4, etc...
+            // só passa para os ímpares se a divisão não for mais possível.)
+            // Aqui, continuamos no loop, e d será incrementado no final
+        } else {
+            // Tenta o próximo divisor (que será 5, 7, 9 -> 9 falha, 11...)
+            d += 2; // Otimização: só precisamos verificar divisores ímpares.
+        }
+    }
+
+    // imprimir o ultimo fator primo
+    if (n > 1) {
+        printf("%lld: ", n);
+        n = 1;
+    }
+    
+    // Se o loop terminou sem encontrar repetições
+    printf("Ok.\n");
+    return 1;
+}
 
 // Implementação do método ρ de Pollard
 long long fatoracaoPollard(long long n) {
@@ -138,6 +189,10 @@ int main() {
     }
     // Apenas estetica
     printf("\n");
+    if(!saoPrimosDistintos(N1) || !saoPrimosDistintos(N2)) {
+        printf("Os numeros devem ser produtos de primos distintos\n");
+        return 0;
+    }
 
     printf("Etapa 1: Fatoração Interativa (Método ρ de Pollard)\n");
 
@@ -169,7 +224,7 @@ int main() {
 
     printf("Etapa 3 - Codificação (Criptografia) e Decodificação (Descriptografia)\n");
     char string[100];
-    printf("Digite a mensagem para criptografar (letras maiusculas, sem acentos): ");
+    printf("Digite a mensagem para criptografar (sem acentos): ");
     scanf(" %[^\n]s", string);
     
     int tamanho = strlen(string); // ver o tamanho da string
