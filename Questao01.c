@@ -107,6 +107,10 @@ long long potenciaModular(long long base, long long expoente, long long mod, lon
 }
 
 int main() {
+
+    printf("Integrantes do Grupo:\n");
+    printf("Artur Fernandes Galdino - 241010923\n");
+    printf("Fábio Alessandro Santos Vieira - 241011804\n\n");
     
     int N1, N2;
     printf("Digite dois numeros inteiros entre 100 e 9999, tais que cada N deve ser produtos de primos distintos\n");
